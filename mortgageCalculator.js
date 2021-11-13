@@ -37,7 +37,8 @@ function checkDuration(duration) {
   if (duration.includes('month')) {
     const durationInMonths = parseFloat(duration);
     return durationInMonths;
-  } if (duration.includes('year')) {
+  }
+  if (duration.includes('year')) {
     const MONTHS_IN_YEAR = 12;
     const durationInMonths = parseFloat(duration) * MONTHS_IN_YEAR;
     return durationInMonths;
@@ -72,7 +73,8 @@ function calculateMonthlyPayment(loanAmount, apr, duration) {
 function checkResponse(response) {
   if (response === 'y' || response === 'yes') {
     return 'continue';
-  } if (response === 'n' || response === 'no') {
+  }
+  if (response === 'n' || response === 'no') {
     return 'exit';
   }
   return response;
@@ -103,7 +105,7 @@ function runMortgageCalculator() {
   let response = readline.question().toLowerCase();
 
   while (checkResponse(response) !== 'continue') {
-    if ((checkResponse(response) === 'exit')) return;
+    if (checkResponse(response) === 'exit') return;
     prompt(`Didn't understand ${response}, try again: y/n`);
     response = readline.question().toLowerCase();
     checkResponse(response);
