@@ -22,7 +22,7 @@ function getLoanAmt() {
 }
 
 function getAPR() {
-  prompt('Please enter the annual percentage rate (APR) \n ex: 12.5');
+  prompt('Please enter the annual percentage rate (APR) \n ex: 12.5 percent => 12.5');
   let response = readline.question();
 
   while (invalidNumber(response)) {
@@ -66,7 +66,9 @@ function getDuration() {
 function calculateMonthlyPayment(loanAmount, apr, duration) {
   const annualRate = Number(apr) / 100;
   const monthlyRate = Number(annualRate) / 12;
-  const monthlyPayment = loanAmount * (monthlyRate / (1 - (1 + monthlyRate) ** -duration));
+
+  const monthlyPayment = Number(loanAmount) *
+    (monthlyRate / (1 - Math.pow((1 + monthlyRate), (-Number(duration)))));
 
   return monthlyPayment;
 }
