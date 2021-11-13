@@ -9,7 +9,7 @@ function invalidNumber(number) {
 }
 
 function getLoanAmt() {
-  prompt('What is the amount of your loan? \n ex: 12,345');
+  prompt('Please enter the loan amount \n ex: 12,345');
   let response = readline.question().replace(',', '');
 
   while (invalidNumber(response)) {
@@ -22,7 +22,7 @@ function getLoanAmt() {
 }
 
 function getAPR() {
-  prompt('What is the annual percentage rate (APR)? \n ex: 12.5');
+  prompt('Please enter the annual percentage rate (APR) \n ex: 12.5');
   let response = readline.question();
 
   while (invalidNumber(response)) {
@@ -33,38 +33,39 @@ function getAPR() {
   const apr = parseFloat(response, 10);
   return apr;
 }
+
 function checkDuration(duration) {
-  if (duration.includes('month')) {
+  if (duration.toLowerCase().includes('month')) {
     const durationInMonths = parseFloat(duration);
     return durationInMonths;
   }
-  if (duration.includes('year')) {
+  if (duration.toLowerCase().includes('year')) {
     const MONTHS_IN_YEAR = 12;
     const durationInMonths = parseFloat(duration) * MONTHS_IN_YEAR;
     return durationInMonths;
   }
+
   return parseFloat(duration);
 }
 
 function getDuration() {
-  prompt(
-    'What is the duration? Please specify months OR year. \n ex: 24 months OR 2 years (default: month)',
-  );
+  prompt(`Please enter loan duration in months OR years
+    \n ex: 12 months (default: month)`);
   let response = readline.question();
   let durationInMonths = checkDuration(response);
 
   while (invalidNumber(durationInMonths)) {
-    prompt('Invalid! Try again. \n ex: 24 months OR 2 years(default: month)');
+    prompt('Invalid! Try again. \n ex: 24 months OR 2 years (default: month)');
     response = readline.question();
     durationInMonths = checkDuration(response);
   }
+
   return durationInMonths;
 }
 
 function calculateMonthlyPayment(loanAmount, apr, duration) {
   const annualRate = Number(apr) / 100;
   const monthlyRate = Number(annualRate) / 12;
-
   const monthlyPayment = loanAmount * (monthlyRate / (1 - (1 + monthlyRate) ** -duration));
 
   return monthlyPayment;
@@ -77,6 +78,7 @@ function checkResponse(response) {
   if (response === 'n' || response === 'no') {
     return 'exit';
   }
+
   return response;
 }
 
@@ -103,7 +105,6 @@ function runMortgageCalculator() {
   prompt(`Your monthly payment is ${monthlyPayment}. Calculate again? y/n`);
 
   let response = readline.question().toLowerCase();
-
   while (checkResponse(response) !== 'continue') {
     if (checkResponse(response) === 'exit') return;
     prompt(`Didn't understand ${response}, try again: y/n`);
